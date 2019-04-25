@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Juego Ahorcado</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            function crearGuiones(palabraOriginal) {
+
+                var guiones = "";
+                var i = 0;
+                while (i < palabraOriginal.length) {
+                    guiones = guiones + "-";
+                    i++;
+                }
+                return guiones;
+            }
+
+            function unaSola(cadena) {
+                while (cadena.length != 1) {
+                    var cadena = alert("Introduza un solo caracter");
+                }
+            }
+
+            var primera = prompt("JUGADOR 1: Introduce cadena a adivinar");
+            var guion = "";
+            var output = "";
+            $("#output").html(output);
+
+            guion = crearGuiones(primera);
+
+            var spl = [];
+            spl = guion.split("");
+
+            var i = 0;
+            $("#vida").append("Le quedan " + (5 - i) + " vidas");
+            $("#output").prepend(guion + "<br/>");
+            var hasAcertado;
+
+            $("#boton").click(function () {
+                var segunda = $("#letra").val();
+                $("#salida").html(segunda);
+                unaSola(segunda);
+                if (i <= 5) {
+                    var f = 0;
+                    hasAcertado = false;
+
+                    while (f <= primera.length) {
+                        if (segunda === primera[f]) {
+                            spl[f] = segunda;
+                            hasAcertado = true;
+                        }
+                        f++;
+                    }
+
+                    if (hasAcertado == false) {
+                        i++;
+                    }
+                    var str3 = spl.join("");
+                    $("#output").append(str3 + "<br/>");
+                    if (str3 === primera) {
+                        $("#output").append("Enhorabuena, has acertado<br/>");
+                    }
+                    else if (i == 5) {
+                        $("#output").append("Lo siento, has perdido, la palabra era: " + primera + "<br/>");
+                    }
+                    $("#vida").html("Le quedan " + (5 - i) + " vidas");
+                }
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <h3>Juego del ahorcado</h3>
+    <input id="letra" type="text" />
+    <button id="boton">Aceptar</button>
+    <p id="vida"></p>
+    <p id="output"></p>
+
+</body>
+
+</html>
