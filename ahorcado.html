@@ -7,75 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Juego Ahorcado</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
 
-        $(document).ready(function () {
-
-            function crearGuiones(palabraOriginal) {
-
-                var guiones = "";
-                var i = 0;
-                while (i < palabraOriginal.length) {
-                    guiones = guiones + "-";
-                    i++;
-                }
-                return guiones;
-            }
-
-            function unaSola(cadena) {
-                while (cadena.length != 1) {
-                    var cadena = alert("Introduza un solo caracter");
-                }
-            }
-
-            var primera = prompt("JUGADOR 1: Introduce cadena a adivinar");
-            var guion = "";
-            var output = "";
-            $("#output").html(output);
-
-            guion = crearGuiones(primera);
-
-            var spl = [];
-            spl = guion.split("");
-
-            var i = 0;
-            $("#vida").append("Le quedan " + (5 - i) + " vidas");
-            $("#output").prepend(guion + "<br/>");
-            var hasAcertado;
-
-            $("#boton").click(function () {
-                var segunda = $("#letra").val();
-                $("#salida").html(segunda);
-                unaSola(segunda);
-                if (i <= 5) {
-                    var f = 0;
-                    hasAcertado = false;
-
-                    while (f <= primera.length) {
-                        if (segunda === primera[f]) {
-                            spl[f] = segunda;
-                            hasAcertado = true;
-                        }
-                        f++;
-                    }
-
-                    if (hasAcertado == false) {
-                        i++;
-                    }
-                    var str3 = spl.join("");
-                    $("#output").html(str3 + "<br/>");
-                    if (str3 === primera) {
-                        $("#output").append("Enhorabuena, has acertado<br/>");
-                    }
-                    else if (i == 5) {
-                        $("#output").append("Lo siento, has perdido, la palabra era: " + primera + "<br/>");
-                    }
-                    $("#vida").html("Le quedan " + (5 - i) + " vidas");
-                }
-            });
-        });
-
-    </script>
 </head>
 
 <body>
@@ -84,7 +16,132 @@
     <button id="boton">Aceptar</button>
     <p id="vida"></p>
     <p id="output"></p>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+    <script>
+        $(document).ready(function () {
+            function crearGuiones(palabraOriginal) {
+                var guiones = "";
+                var i = 0;
+                while (i < palabraOriginal.length) {
+                    guiones = guiones + "-";
+                    i++;
+                }
+                return guiones;
+            }
+            function unaSola(cadena) {
+                while (cadena.length != 1) {
+                    var cadena = alert("Introduza un solo caracter");
+                }
+            }
+            function ahor() {
+                ctx.beginPath();
+                ctx.rect(121.5, 20, 2, 50);                     //cuerda
+                ctx.fillStyle = "#000000";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function cabez() {
+                ctx.beginPath();
+                ctx.arc(122.5, 82, 10, 0, Math.PI * 2, true);   //cabeza
+                ctx.fillStyle = "#000000";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function torso() {
+                ctx.beginPath();
+                ctx.rect(117.5, 94, 10, 100);                   //torso
+                ctx.fillStyle = "#000000";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function brazos() {
+                ctx.beginPath();
+                ctx.rect(105.5, 105, 10, 70);                   //brazaIzq
+                ctx.rect(129.5, 105, 10, 70);                   //brazoDer
+                ctx.fillStyle = "#000000";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function piernas() {
+                ctx.beginPath();
+                ctx.rect(127.5, 195, 10, 80);                   //piernaDer
+                ctx.rect(107.5, 195, 10, 80);                   //piernaIzq
+                ctx.fillStyle = "#000000";
+                ctx.fill();
+                ctx.closePath();
+            }
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
 
+            ctx.beginPath();
+            ctx.rect(10, 370, 200, 2);                          //suelo
+            ctx.rect(20, 5, 5, 365);                            //palo
+            ctx.rect(10, 20, 125, 5);                           //suje
+            ctx.fillStyle = "#000000";
+            ctx.fill();
+            ctx.closePath();
+
+            var palabra = prompt("JUGADOR 1: Introduce cadena a adivinar");
+            var guion = "";
+            var output = "";
+            $("#output").html(output);
+
+            guion = crearGuiones(palabra);
+
+            var spl = [];
+            spl = guion.split("");
+
+            var vid = 0;
+            $("#vida").append("Le quedan " + (5 - vid) + " vidas.");
+            $("#output").prepend(guion + "<br/>");
+            var hasAcertado;
+
+            $("#boton").click(function () {
+                var adiv = $("#letra").val();
+                $("#salida").html(adiv);
+                unaSola(adiv);
+                if (vid < 5) {
+                    var f = 0;
+                    hasAcertado = false;
+
+                    while (f <= palabra.length) {
+                        if (adiv === palabra[f]) {
+                            spl[f] = adiv;
+                            hasAcertado = true;
+                        }
+                        f++;
+                    }
+                    if (hasAcertado == false) {
+                        vid++;
+                        if (vid == 1) {
+                            ahor();
+                        }
+                        if (vid == 2) {
+                            cabez();
+                        }
+                        if (vid == 3) {
+                            torso();
+                        }
+                        if (vid == 4) {
+                            brazos();
+                        }
+                        if (vid == 5) {
+                            piernas();
+                        }
+                    }
+                    var fin = spl.join("");
+                    $("#output").html(fin + "<br/>");
+                    if (fin === palabra) {
+                        $("#output").append("<br/>Enhorabuena, has acertado.<br/>");
+                    }
+                    else if (vid == 5) {
+                        $("#output").append("<br/>Lo siento, has perdido, la palabra era: '" + palabra + "'.<br/>");
+                    }
+                    $("#vida").html("Le quedan " + (5 - vid) + " vidas.");
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
