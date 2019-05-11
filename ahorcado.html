@@ -100,13 +100,20 @@
                 var adiv = $("#letra").val();
                 $("#salida").html(adiv);
                 unaSola(adiv);
+                var adivMay = adiv.toUpperCase();
+                var adivMin = adiv.toLowerCase();
                 if (vid < 5) {
                     var f = 0;
                     hasAcertado = false;
 
                     while (f <= palabra.length) {
-                        if (adiv === palabra[f]) {
-                            spl[f] = adiv;
+                        if (adivMay === palabra[f] || adivMin === palabra[f]) {
+                            if (adivMay === palabra[f]){
+                                spl[f] = adivMay;
+                            }
+                            else {
+                                spl[f] = adivMin;
+                            }
                             hasAcertado = true;
                         }
                         f++;
