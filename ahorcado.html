@@ -12,7 +12,7 @@
 
 <body>
     <h3>Juego del ahorcado</h3>
-    <input id="letra" type="text" />
+    <input id="letra" type="text"/>
     <button id="boton">Aceptar</button>
     <p id="vida"></p>
     <p id="output"></p>
@@ -70,6 +70,14 @@
                 ctx.fill();
                 ctx.closePath();
             }
+            $("#letra").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#boton").click();
+                }
+            });
+
+            $("#letra").focus();
+
             var canvas = document.getElementById("myCanvas");
             var ctx = canvas.getContext("2d");
 
@@ -108,7 +116,7 @@
 
                     while (f <= palabra.length) {
                         if (adivMay === palabra[f] || adivMin === palabra[f]) {
-                            if (adivMay === palabra[f]){
+                            if (adivMay === palabra[f]) {
                                 spl[f] = adivMay;
                             }
                             else {
@@ -120,31 +128,31 @@
                     }
                     if (hasAcertado == false) {
                         vid++;
-                        var fal=$("#fallo").html();
+                        var fal = $("#fallo").html();
                         if (vid == 1) {
                             ahor();
-                            $("#fallo").html("Letras falladas: "+adiv);
+                            $("#fallo").html("Letras falladas: " + adiv);
                         }
                         if (vid == 2) {
                             cabez();
-                            $("#fallo").html(fal+", "+adiv);
+                            $("#fallo").html(fal + ", " + adiv);
                         }
                         if (vid == 3) {
                             torso();
-                            $("#fallo").html(fal+", "+adiv);
+                            $("#fallo").html(fal + ", " + adiv);
                         }
                         if (vid == 4) {
                             brazos();
-                            $("#fallo").html(fal+", "+adiv);
+                            $("#fallo").html(fal + ", " + adiv);
                         }
                         if (vid == 5) {
                             piernas();
-                            $("#fallo").html(fal+", "+adiv);
+                            $("#fallo").html(fal + ", " + adiv);
                         }
                     }
                     var fin = spl.join("");
                     $("#output").html(fin + "<br/>");
-                    
+
 
 
                     if (fin === palabra) {
@@ -156,6 +164,7 @@
                     $("#vida").html("Le quedan " + (5 - vid) + " vidas.");
                 }
                 $("#letra").val('');
+                $("#letra").focus();
             });
         });
     </script>
