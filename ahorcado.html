@@ -7,12 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Juego Ahorcado</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <style>
+        #btn-restart {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
     <h3>Juego del ahorcado</h3>
-    <input id="letra" type="text"/>
+    <input id="letra" type="text" />
     <button id="boton">Aceptar</button>
     <p id="vida"></p>
     <p id="output"></p>
@@ -70,6 +74,7 @@
                 ctx.fill();
                 ctx.closePath();
             }
+            $("#btn-restart").hide();
             $("#letra").keyup(function (event) {
                 if (event.keyCode === 13) {
                     $("#boton").click();
@@ -157,9 +162,11 @@
 
                     if (fin === palabra) {
                         $("#output").append("<br/>Enhorabuena, has acertado.<br/>");
+                        $("#btn-restart").show();
                     }
                     else if (vid == 5) {
                         $("#output").append("<br/>Lo siento, has perdido, la palabra era: '" + palabra + "'.<br/>");
+                        $("#btn-restart").show();
                     }
                     $("#vida").html("Le quedan " + (5 - vid) + " vidas.");
                 }
@@ -169,6 +176,7 @@
         });
     </script>
     <p id="fallo"></p>
+    <button id="btn-restart" onClick="location.reload();">Volver a jugar</button>
 </body>
 
 </html>
